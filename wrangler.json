@@ -1,0 +1,16 @@
+{
+	"compatibility_date": "2025-10-08",
+	"main": "src/index.ts",
+	"name": "patchwork-worker",
+	"upload_source_maps": true,
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_id": "3eeb1af6-0358-47d7-8588-2feef8cb9e55",
+			"database_name": "patchwork"
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}
