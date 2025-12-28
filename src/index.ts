@@ -142,7 +142,22 @@ async function verifyGitHubToken(token: string): Promise<GitHubUser | null> {
 
     if (!response.ok) return null;
 
-    return response.json();
+    let githubUser: GitHubUser = await response.json();
+
+    // if user has private email, fetch from the email endpoint
+    if (!githubUser.email) {
+      const emailResponse = await fetch("https://api.github.com/user/emails", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "User-Agent": "Patchwork-Auth",
+        },
+      });
+      let emailList: any = await emailResponse.json();
+      const primaryEmail = emailList.filter((e: any) => e.primary)[0].email
+      if (primaryEmail) githubUser.email = primaryEmail
+    }
+
+    return Promise.resolve(githubUser);
   } catch {
     return null;
   }
